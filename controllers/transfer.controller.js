@@ -7,9 +7,12 @@ const App = async (req, res) => {
   const session = await mongoose.startSession();
 
   session.startTransaction();
-  const { amount, to } = req.body;
+  const amount = parseFloat(req.body.amount);
+  const to = req.body.to;
+  console.log(typeof amount, to);
   const check1 = balanceSchema.safeParse(amount);
   const check2 = toSchema.safeParse(to);
+  //console.log(check1, check2);
   if (check1.success === false || check2.success === false) {
     await session.abortTransaction();
     return res.status(400).json({
