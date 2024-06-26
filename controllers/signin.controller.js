@@ -29,7 +29,7 @@ const App = async (req, res) => {
     return;
   }
   const checkpassword = await bcrypt.compare(password, check.password);
-  console.log(check, checkpassword);
+  
   if (check && checkpassword) {
     const userid = check._id;
     const tocken = jwt.sign({ userid: userid }, JWT_SECRET);
