@@ -11,7 +11,7 @@ Install my-project with npm
   npm install
 ```
 
-## Start Backend
+## Run Locally
 ```
 nodemon index.js
 ```
