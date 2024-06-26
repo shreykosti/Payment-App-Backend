@@ -5,8 +5,8 @@ import Account from "../model/account.model.js";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config.js";
 import bcrypt from "bcrypt";
-const emailschema = z.coerce.string().email().min(1);
-const schema = z.string().min(1).max(20);
+const emailschema = z.coerce.string().email().min(3);
+const schema = z.string().min(3).max(20);
 const App = async (req, res) => {
   const username = req.body.username;
   const firstname = req.body.firstname;
@@ -17,13 +17,18 @@ const App = async (req, res) => {
   const c2 = schema.safeParse(firstname);
   const c3 = schema.safeParse(lastname);
   const c4 = schema.safeParse(password);
-  if (
-    c1.success === false ||
-    c2.success === false ||
-    c3.success === false ||
-    c4.success === false
-  ) {
-    res.status(400).json({ status: "error while input data" });
+   
+  if (c1.success === false) {
+    res.status(400).json({ status: "error in email" });
+    return;
+  } else if (c2.success === false) {
+    res.status(400).json({ status: "error in firstname" });
+    return;
+  } else if (c3.success === false) {
+    res.status(400).json({ status: "error in lastname" });
+    return;
+  } else if (c4.success === false) {
+    res.status(400).json({ status: "error in password" });
     return;
   }
 
@@ -35,7 +40,7 @@ const App = async (req, res) => {
     lastname: lastname,
     password: hash || password,
   });
-
+  console.log(user);
   user
     .save()
     .then((result) => {
@@ -55,7 +60,7 @@ const App = async (req, res) => {
 
         .catch((err) => {
           res.status(400).json({
-            msg: `error while creating data ${err.errorResponse.errmsg}`,
+            msg: `${err.errorResponse.errmsg} `,
           });
         });
       const token = jwt.sign({ userid: userid }, JWT_SECRET);
@@ -66,9 +71,9 @@ const App = async (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res
-        .status(400)
-        .json({ msg: `error while saving data ${err.errorResponse.errmsg}` });
+      res.status(400).json({
+        msg: `error in input${err.errorResponse.errmsg || "data"}`,
+      });
     });
 };
 
