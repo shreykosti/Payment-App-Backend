@@ -3,7 +3,9 @@ import express from "express";
 import User from "../model/user.model.js";
 import Account from "../model/account.model.js";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config.js";
+import dotenv from "dotenv";
+dotenv.config();
+
 import bcrypt from "bcrypt";
 const emailschema = z.coerce.string().email().min(3);
 const schema = z.string().min(3).max(20);
@@ -64,7 +66,7 @@ const App = async (req, res) => {
             msg: `${err.errorResponse.errmsg} `,
           });
         });
-      const token = jwt.sign({ userid: userid }, JWT_SECRET);
+      const token = jwt.sign({ userid: userid }, process.env.JWT_SECRET);
       res.json({
         message: "User created successfully",
         token: token,

@@ -3,19 +3,21 @@ import cors from "cors";
 import express from "express";
 import cookieParser from "cookie-parser";
 import rout from "./routes/index.js";
+import dotenv from "dotenv";
+dotenv.config();
+
 const app = express();
 const port = process.env.PORT || 3000;
+const mongodburl = process.env.MONGOODBCONNECT;
 (() => {
   mongoose
-    .connect(
-      "mongodb+srv://shreykosti0:6dtPr8glG7ZkWh9S@cluster0.zu6ocfp.mongodb.net/paytm"
-    )
+    .connect(mongodburl)
     .then(() => {
       console.log("Connected to database");
     })
     .catch((err) => {
       console.log(`Error connecting to database ${err}`);
-    });
+    }); 
 })();
 app.use(cors());
 app.use(express.json());

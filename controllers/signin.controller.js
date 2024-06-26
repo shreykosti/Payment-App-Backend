@@ -1,6 +1,8 @@
 import User from "../model/user.model.js";
 import express from "express";
-import { JWT_SECRET } from "../config.js";
+import dotenv from "dotenv";
+dotenv.config();
+
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import bcrypt from "bcrypt";
@@ -29,10 +31,10 @@ const App = async (req, res) => {
     return;
   }
   const checkpassword = await bcrypt.compare(password, check.password);
-  
+
   if (check && checkpassword) {
     const userid = check._id;
-    const tocken = jwt.sign({ userid: userid }, JWT_SECRET);
+    const tocken = jwt.sign({ userid: userid }, process.env.JWT_SECRET);
 
     res.json({
       message: "User signin successfully",
