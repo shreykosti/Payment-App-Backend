@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-// import cors from "cors";
+import cors from "cors";
 import express from "express";
 import cookieParser from "cookie-parser";
 import rout from "./routes/index.js";
@@ -17,7 +17,7 @@ const port = process.env.PORT || 3000;
       console.log(`Error connecting to database ${err}`);
     });
 })();
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 //routes
