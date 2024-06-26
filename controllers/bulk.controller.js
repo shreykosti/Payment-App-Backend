@@ -6,7 +6,6 @@ const App = async (req, res) => {
   if (inputfilter === "") {
     return res.status(400).json({ message: "Please provide a filter" });
   }
-  console.log(inputfilter);
   try {
     const user = await User.find({
       $and: [
@@ -42,7 +41,9 @@ const App = async (req, res) => {
         _id: use._id,
       })),
     });
-  } catch (error) {}
+  } catch (error) {
+    res.status(400).json({ message: "Error occured" });
+  }
 };
 
 export default App;

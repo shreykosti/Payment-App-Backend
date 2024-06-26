@@ -8,16 +8,17 @@ import bcrypt from "bcrypt";
 const emailschema = z.coerce.string().email().min(3);
 const schema = z.string().min(3).max(20);
 const App = async (req, res) => {
-  const username = req.body.username;
-  const firstname = req.body.firstname;
-  const lastname = req.body.lastname;
-  const password = req.body.password;
+  console.log("insignup controller");
+  const username = req.body.username || " ";
+  const firstname = req.body.firstname || " ";
+  const lastname = req.body.lastname || " ";
+  const password = req.body.password || " ";
 
   const c1 = emailschema.safeParse(username);
   const c2 = schema.safeParse(firstname);
   const c3 = schema.safeParse(lastname);
   const c4 = schema.safeParse(password);
-   
+
   if (c1.success === false) {
     res.status(400).json({ status: "error in email" });
     return;

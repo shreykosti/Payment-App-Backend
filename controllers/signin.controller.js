@@ -8,8 +8,8 @@ const App = async (req, res) => {
   console.log("insignin controller");
   const emailschema = z.string().email().min(3);
   const schema = z.string().min(3).max(20);
-  const username = req.body.username;
-  const password = req.body.password;
+  const username = req.body.username || " ";
+  const password = req.body.password || " ";
   const c1 = emailschema.safeParse(username);
   const c2 = schema.safeParse(password);
   if (c1.success === false) {
