@@ -27,6 +27,11 @@ const Userschema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
+  pin: {
+    type: String,
+    required: true,
+    trim: true,
+  },
 });
 
 export default mongoose.model("User", Userschema);

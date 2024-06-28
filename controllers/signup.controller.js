@@ -9,41 +9,46 @@ dotenv.config();
 import bcrypt from "bcrypt";
 const emailschema = z.coerce.string().email().min(3);
 const schema = z.string().min(3).max(20);
+const pinSchema = z.number().int().positive().min(999).max(9999);
 const App = async (req, res) => {
   console.log("insignup controller");
   const username = req.body.username || " ";
   const firstname = req.body.firstname || " ";
   const lastname = req.body.lastname || " ";
   const password = req.body.password || " ";
-
+  const pin = req.body.pin || " ";
   const c1 = emailschema.safeParse(username);
   const c2 = schema.safeParse(firstname);
   const c3 = schema.safeParse(lastname);
   const c4 = schema.safeParse(password);
-
+  const c5 = pinSchema.safeParse(pin);
   if (c1.success === false) {
-    res.status(400).json({ status: "error in email" });
+    res.status(400).send("invalid email🧐🧐");
     return;
   } else if (c2.success === false) {
-    res.status(400).json({ status: "error in firstname" });
+    res.status(400).send("invalid firstname🧐🧐");
     return;
   } else if (c3.success === false) {
-    res.status(400).json({ status: "error in lastname" });
+    res.status(400).send("invalid lastname🧐🧐");
     return;
   } else if (c4.success === false) {
-    res.status(400).json({ status: "error in password" });
+    res.status(400).send("invalid password🧐🧐");
+    return;
+  } else if (c5.success === false) {
+    res.status(400).send("invalid pin🧐🧐");
     return;
   }
-
-  const hash = await bcrypt.hashSync(password, 10);
-
+  const updatepin = pin.toString();
+  const hash1 = await bcrypt.hashSync(password, 10);
+  const hash2 = await bcrypt.hashSync(updatepin, 10);
   const user = new User({
     username: username,
     firstname: firstname,
     lastname: lastname,
-    password: hash || password,
+    password: hash1 || password,
+    pin: hash2 || pin,
   });
-  console.log(user);
+
   user
     .save()
     .then((result) => {
@@ -62,9 +67,8 @@ const App = async (req, res) => {
         })
 
         .catch((err) => {
-          res.status(400).json({
-            msg: `${err.errorResponse.errmsg} `,
-          });
+          console.log(err);
+          res.status(400).send(err.errorResponse.errmsg);
         });
       const token = jwt.sign({ userid: userid }, process.env.JWT_SECRET);
       res.json({
@@ -74,9 +78,13 @@ const App = async (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(400).json({
-        msg: `error in input${err.errorResponse.errmsg || "data"}`,
-      });
+      res
+        .status(400)
+        .send(
+          err.errorResponse.errmsg
+            .split(":")[2]
+            .replace("username_1 dup key", " Email already exists")
+        );
     });
 };
 

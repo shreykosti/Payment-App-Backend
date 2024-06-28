@@ -3,12 +3,13 @@ import User from "../model/user.model.js";
 const updateSchema = z.object({
   firstname: z.string().min(3).max(20).optional(),
   lastname: z.string().min(3).max(20).optional(),
-  password: z.string().min(6).max(20).optional(),
 });
 const update = async (req, res) => {
+  console.log(req.body);
   const { success } = updateSchema.safeParse(req.body);
+  console.log(success);
   if (!success) {
-    return res.status(400).json({ message: "Invalid data" });
+    return res.status(400).json({ message: "Invalid data to update" });
   }
   const id = req.user.id;
   const check = await User.findByIdAndUpdate(id, {

@@ -15,10 +15,10 @@ const App = async (req, res) => {
   const c1 = emailschema.safeParse(username);
   const c2 = schema.safeParse(password);
   if (c1.success === false) {
-    res.status(400).json({ message: "Invalid email" });
+    res.status(400).send("Invalid email🧐🧐");
     return;
   } else if (c2.success === false) {
-    res.status(400).json({ message: "Invalid password" });
+    res.status(400).send("Invalid password🧐🧐");
     return;
   }
 
@@ -27,7 +27,7 @@ const App = async (req, res) => {
   }).exec();
 
   if (!check) {
-    res.status(400).json({ message: "User not found" });
+    res.status(400).send("User not found");
     return;
   }
   const checkpassword = await bcrypt.compare(password, check.password);
@@ -43,7 +43,7 @@ const App = async (req, res) => {
     return;
   }
 
-  res.status(400).json({ message: "User not found" });
+  res.status(400).send("User not found");
 };
 
 export default App;
