@@ -4,6 +4,7 @@ import User from "../model/user.model.js";
 import Account from "../model/account.model.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import TransactionHistory from "../model/transaction.model.js";
 dotenv.config();
 
 import bcrypt from "bcrypt";
@@ -17,6 +18,7 @@ const App = async (req, res) => {
   const lastname = req.body.lastname || " ";
   const password = req.body.password || " ";
   const pin = req.body.pin || " ";
+  const amount = 1 + Math.floor(Math.random() * 100000);
   const c1 = emailschema.safeParse(username);
   const c2 = schema.safeParse(firstname);
   const c3 = schema.safeParse(lastname);
@@ -58,12 +60,37 @@ const App = async (req, res) => {
 
       const account = new Account({
         userNumber: user._id,
-        balance: 1 + Math.floor(Math.random() * 100000),
+        balance: amount,
       });
       account
         .save()
         .then((result) => {
           console.log("Account created successfully");
+          const date = new Date();
+          const transactionHistory = new TransactionHistory({
+            accountnumber: user._id,
+            transactions: [
+              {
+                recived: true,
+                amount: amount,
+                sendto: "self",
+                month: date.getMonth(),
+                year: date.getFullYear(),
+                day: date.getDate(),
+                hour: date.getHours(),
+                minutes: date.getMinutes(),
+              },
+            ],
+          });
+          transactionHistory
+            .save()
+            .then((result) => {
+              console.log("TransactionHistory created successfully");
+            })
+            .catch((err) => {
+              console.log(err);
+              res.status(400).send(err.errorResponse.errmsg);
+            });
         })
 
         .catch((err) => {
