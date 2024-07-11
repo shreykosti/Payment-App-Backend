@@ -18,9 +18,7 @@ const mongodburl = process.env.MONGOODBCONNECT;
   mongoose
     .connect(mongodburl)
     .then(() => {
-      console.log(
-        "Connected to database successfully"
-      );
+      console.log("Connected to database successfully");
     })
     .catch((err) => {
       console.log(`Error connecting to database ${err}`);
@@ -36,7 +34,12 @@ app.use(express.json());
 app.use(cookieParser());
 //routes
 app.use("/api/v1", rout);
- 
+
 app.listen(port || 3000, () => {
   console.log(`Server is running on port ${port}`);
+});
+
+app.use((req, res, next, error) => {
+  res.status(404).send("thesr is some problem");
+  //next(error);
 });

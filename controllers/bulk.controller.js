@@ -3,6 +3,7 @@ const App = async (req, res) => {
   const idcheck = req.user.id;
   console.log("in bulk");
   const inputfilter = req.query.filter;
+  console.log(typeof inputfilter);
   if (inputfilter === "") {
     return res.status(400).json({ message: "Please provide a filter" });
   }

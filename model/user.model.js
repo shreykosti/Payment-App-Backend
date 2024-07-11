@@ -32,6 +32,10 @@ const Userschema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  Darkmode: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export default mongoose.model("User", Userschema);

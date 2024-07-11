@@ -41,8 +41,8 @@ const App = async (req, res) => {
     return;
   }
   const updatepin = pin.toString();
-  const hash1 = await bcrypt.hashSync(password, 10);
-  const hash2 = await bcrypt.hashSync(updatepin, 10);
+  const hash1 = bcrypt.hashSync(password, 10);
+  const hash2 = bcrypt.hashSync(updatepin, 10);
   const user = new User({
     username: username,
     firstname: firstname,

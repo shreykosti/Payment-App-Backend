@@ -2,10 +2,10 @@ import User from "../model/user.model.js";
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
-
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import bcrypt from "bcrypt";
+
 const App = async (req, res) => {
   console.log("insignin controller");
   const emailschema = z.string().email().min(3);
