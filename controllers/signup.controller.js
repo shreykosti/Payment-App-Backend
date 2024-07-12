@@ -100,7 +100,7 @@ const App = async (req, res) => {
       const token = jwt.sign({ userid: userid }, process.env.JWT_SECRET);
       res.cookie("token", token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "None",
         secure: true
       });
       res.json({

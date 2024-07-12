@@ -37,7 +37,7 @@ const App = async (req, res) => {
     const tocken = jwt.sign({ userid: userid }, process.env.JWT_SECRET);
     res.cookie("tocken", tocken, {
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "None",
       secure: true,
     });
     res.json({
