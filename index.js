@@ -26,7 +26,7 @@ const mongodburl = process.env.MONGOODBCONNECT;
 })();
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://payment-app-backend-8ug9.onrender.com",
     credentials: true,
   })
 );
