@@ -101,6 +101,7 @@ const App = async (req, res) => {
       res.cookie("token", token, {
         httpOnly: true,
         sameSite: "strict",
+        secure: true
       });
       res.json({
         message: "User created successfully",

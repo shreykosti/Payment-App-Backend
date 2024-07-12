@@ -38,6 +38,7 @@ const App = async (req, res) => {
     res.cookie("tocken", tocken, {
       httpOnly: true,
       sameSite: "strict",
+      secure: true,
     });
     res.json({
       message: "User signin successfully",

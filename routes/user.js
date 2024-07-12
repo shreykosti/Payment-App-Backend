@@ -16,6 +16,7 @@ router.post("/logout", (req, res) => {
     httpOnly: true,
     sameSite: "strict",
     expires: new Date(0),
+    secure: true
   });
   res.json({
     message: "User signout successfully",
