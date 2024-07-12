@@ -26,7 +26,7 @@ const mongodburl = process.env.MONGOODBCONNECT;
 })();
 app.use(
   cors({
-    origin: "https://payment-app-backend-8ug9.onrender.com",
+    origin: "https://payment-app-frontend-v1.vercel.app",
     credentials: true,
   })
 );
