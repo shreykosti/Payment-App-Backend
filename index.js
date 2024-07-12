@@ -26,7 +26,7 @@ const mongodburl = process.env.MONGOODBCONNECT;
 })();
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://payment-app-frontend-v1.vercel.app",
     credentials: true,
   })
 );
@@ -35,7 +35,7 @@ app.use(cookieParser());
 //routes
 app.use("/api/v1", rout);
 
-app.listen(port || 3000, () => {
+app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 

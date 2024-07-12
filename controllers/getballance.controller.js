@@ -5,11 +5,13 @@ const App = async (req, res) => {
   const id = req.user.id;
   const Ballance = await Account.findOne({ userNumber: id });
   const uservalue = await User.findOne({ _id: id });
+  console.log(uservalue);
   res.json({
     Balance: Ballance.balance,
     username: uservalue.username,
     firstname: uservalue.firstname,
     lastname: uservalue.lastname,
+    darkmode: uservalue.Darkmode,
   });
 };
 
