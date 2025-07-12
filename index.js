@@ -13,7 +13,8 @@ const port = process.env.PORT || 3000;
 //   optionSuccessStatus: 200,
 // };
 
-const mongodburl = process.env.MONGOODBCONNECT;
+const mongodburl =
+  "mongodb+srv://kostishrey135:zWuWncwCMKEqrpSW@cluster0.vi3fxt4.mongodb.net/";
 (() => {
   mongoose
     .connect(mongodburl)
@@ -24,22 +25,22 @@ const mongodburl = process.env.MONGOODBCONNECT;
       console.log(`Error connecting to database ${err}`);
     });
 })();
-app.use(
-  cors({
-    origin: "https://payment-app-frontend-v1.vercel.app",
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://payment-app-frontend-v1.vercel.app",
+//     credentials: true,
+//   })
+// );
 app.use(express.json());
 app.use(cookieParser());
 //routes
-app.use("/api/v1", rout);
+app.use("/api", rout);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-app.use((req, res, next, error) => {
-  res.status(404).send("thesr is some problem");
-  //next(error);
-});
+// app.use((req, res, next, error) => {
+//   res.status(404).json("there is some problem");
+//   //next(error);
+// });

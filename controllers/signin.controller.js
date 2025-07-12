@@ -1,5 +1,4 @@
 import User from "../model/user.model.js";
-import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import jwt from "jsonwebtoken";
@@ -10,9 +9,9 @@ const App = async (req, res) => {
   console.log("insignin controller");
   const emailschema = z.string().email().min(3);
   const schema = z.string().min(3).max(20);
-  const username = req.body.username || " ";
+  const email = req.body.email || " ";
   const password = req.body.password || " ";
-  const c1 = emailschema.safeParse(username);
+  const c1 = emailschema.safeParse(email);
   const c2 = schema.safeParse(password);
   if (c1.success === false) {
     res.status(400).send("Invalid email🧐🧐");
@@ -23,7 +22,7 @@ const App = async (req, res) => {
   }
 
   const check = await User.findOne({
-    username: username,
+    email: email,
   }).exec();
 
   if (!check) {
